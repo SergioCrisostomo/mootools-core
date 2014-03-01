@@ -241,7 +241,6 @@ module.exports = function(grunt) {
 				src: 'mootools-*.js'
 			}
 		}
-
 	});
 
 	grunt.registerTask('default', ['clean', 'packager:all', 'packager:specs', 'karma:continuous']);
