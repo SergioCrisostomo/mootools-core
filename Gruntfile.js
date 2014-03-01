@@ -101,73 +101,6 @@ module.exports = function(grunt) {
 						browserName: 'opera',
 				        platform: 'Windows 2008',
 				        version: '12'
-					},
-					safari7: {
-						base: 'SauceLabs',
-						browserName: 'safari',
-						version: '7'
-					},
-					safari6: {
-						base: 'SauceLabs',
-						browserName: 'safari',
-						version: '6'
-					},
-					safari5_osx10_6: {
-						base: 'SauceLabs',
-						browserName: 'safari',
-						version: '5',
-						platform: 'OS X 10.6'
-					},
-					safari5_win7: {
-						base: 'SauceLabs',
-						browserName: 'safari',
-						version: '5',
-						platform: 'Windows 7'
-					},
-					ie11: {
-						base: 'SauceLabs',
-						browserName: 'internet explorer',
-						version: '11'
-					},
-					ie10: {
-						base: 'SauceLabs',
-						browserName: 'internet explorer',
-						version: '10'
-					},
-					ie9: {
-						base: 'SauceLabs',
-						browserName: 'internet explorer',
-						version: '9'
-					},
-					ie8: {
-						base: 'SauceLabs',
-						browserName: 'internet explorer',
-						version: '8'
-					},
-					ie7: {
-						base: 'SauceLabs',
-						browserName: 'internet explorer',
-						version: '7'
-					},
-					ie6: {
-						base: 'SauceLabs',
-						browserName: 'internet explorer',
-						version: '6'
-					},
-					iphone_7: {
-						base: 'SauceLabs',
-						browserName: 'iphone',
-						version: '7'
-					},
-					iphone_6_1: {
-						base: 'SauceLabs',
-						browserName: 'iphone',
-						version: '6.1'
-					},
-					iphone_6: {
-						base: 'SauceLabs',
-						browserName: 'iphone',
-						version: '6'
 					}
 				},
 			},
@@ -184,54 +117,6 @@ module.exports = function(grunt) {
 					'firefox_linux', 
 					'opera_win2000'
 				]
-			},
-
-			sauce2: {
-				singleRun: true,
-				browsers: [
-					'safari7',
-					'safari6',
-					'safari5_osx10_6'
-				],
-			},
-
-			sauce3: {
-				singleRun: true,
-				browsers: [
-					'safari5_win7',
-					'ie11',
-					'ie10'
-				]
-			},
-
-			sauce4: {
-				singleRun: true,
-				browsers: [
-					'ie9',
-					'ie8',
-					'ie7'
-				]
-			},
-
-			sauce5: {
-				singleRun: true,
-				browsers: [
-					'ie6',
-					'iphone_7',
-					'iphone_6_1',
-				]
-			},
-
-			sauce6: {
-				singleRun: true,
-				browsers: [
-					'iphone_6'
-				]
-			},
-
-			dev: {
-				browsers: ['PhantomJS'],
-				reporters: 'dots'
 			}
 
 		},
