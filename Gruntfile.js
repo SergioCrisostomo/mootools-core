@@ -79,7 +79,11 @@ module.exports = function(grunt) {
 
                 options: {
                     frameworks: ['jasmine', 'sinon'],
-                    files: ['http://rawgithub.com/bitovi/legacy-syn/master/dist/syn.js', 'mootools-*.js'],
+                    files: [
+                    'http://rawgithub.com/bitovi/legacy-syn/master/dist/syn.js',
+                    'http://sinonjs.org/releases/sinon-ie-1.8.2.js',
+                    'mootools-*.js'
+                    ],
                     sauceLabs: {
                         username: process.env.SAUCE_USERNAME,
                         accessKey: process.env.SAUCE_ACCESS_KEY,
