@@ -209,7 +209,7 @@ module.exports = function(grunt) {
 			sauce3: {
 				port: 9999,
 				browsers: [
-					'safari5_win7',
+//					'safari5_win7',
 					'ie11',
 					'ie10'
 				]
@@ -264,8 +264,8 @@ module.exports = function(grunt) {
 		'clean',
 		'packager:all',
 		'packager:specs',
-		'karma:sauce1',
-		'karma:sauce2',
+		// 'karma:sauce1',
+		// 'karma:sauce2',
 		'karma:sauce3',
 		'karma:sauce4'
 		// 'karma:sauce5',
