@@ -209,7 +209,7 @@ module.exports = function(grunt) {
 			sauce3: {
 				port: 9999,
 				browsers: [
-//					'safari5_win7',
+//					'ie6',
 					'ie11',
 					'ie10'
 				]
