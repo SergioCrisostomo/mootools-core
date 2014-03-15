@@ -4,7 +4,7 @@
   "description": "MooTools is a compact, modular, Object-Oriented JavaScript framework designed for the intermediate to advanced JavaScript developer.",
   "main": "index.js",
   "scripts": {
-    "test": "grunt default:travis --verbose"
+    "test": "./node_modules/.bin/grunt --verbose"
   },
   "repository": {
     "type": "git",
@@ -40,7 +40,7 @@
     "karma-requirejs": "~0.2.1",
     "karma-jasmine": "~0.1.5",
     "karma-sinon": "~1.0.2",
-    "karma-sauce-launcher": "~0.2.0",
+    "karma-sauce-launcher": "~0.2.2",
     "karma-script-launcher": "~0.1.0",
     "karma-phantomjs-launcher": "~0.1.2",
     "karma-chrome-launcher": "~0.1.2",
