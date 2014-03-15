@@ -1,16 +1,28 @@
 language: node_js
 
 node_js:
-- 0.11
+  - 0.11
 
 env:
+  matrix:
+    - BROWSER='ie11'            BUILD='default'
+    - BROWSER='ie10'            BUILD='default'
+    - BROWSER='ie9'             BUILD='default'
+    - BROWSER='ie8'             BUILD='default'
+    - BROWSER='ie7'             BUILD='default'
+#    - BROWSER='ie6'             BUILD='default'  
+
+    - BROWSER='ie11'            BUILD='nocompat'
+    - BROWSER='ie10'            BUILD='nocompat'
+    - BROWSER='ie9'             BUILD='nocompat'
+    - BROWSER='ie8'             BUILD='nocompat'
+    - BROWSER='ie7'             BUILD='nocompat'
+#    - BROWSER='ie6'             BUILD='nocompat'
+    
   global:
     - SAUCE_USERNAME=sergiosbox_core
     - SAUCE_ACCESS_KEY=e9cd398c-418d-47ae-9285-e5b7a5ed9f10
-    
+
 before_script:
-    - npm install grunt-cli -g
-    - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
-  
-script:
-  - grunt --verbose default:travis
+  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
+
