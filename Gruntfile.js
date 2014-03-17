@@ -4,6 +4,14 @@ module.exports = function(grunt) {
 
 	require('load-grunt-tasks')(grunt);
 	var browser = process.env.BROWSER;
+	var travisBuild = process.env.BUILD;
+	var pullRequest = process.env.TRAVIS_PULL_REQUEST;
+	var compatBuild = ['clean', 'packager:all', 'packager:specs'];
+	var nocompatBuild = ['clean', 'packager:nocompat', 'packager:specs-nocompat'];
+	var tasks = travisBuild == 'compat' ? compatBuild : nocompatBuild;
+	tasks =  pullRequest != 'false' ? tasks.concat('karma:continuous') : tasks.concat('karma:sauceTask');
+    
+	grunt.loadNpmTasks('grunt-contrib-watch'); 
 
 	grunt.initConfig({
 		'connect': {
@@ -30,7 +38,12 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-
+		'watch': {
+			all: {
+				files: ['**/*.js'],
+				tasks: compatBuild.concat(['karma:continuous']),
+			},
+		}, 
 		'packager': {
 
 			options: {
@@ -185,7 +198,7 @@ module.exports = function(grunt) {
 			},
 
 			continuous: {
-				browsers: ['PhantomJS']
+				browsers: ['PhantomJS', 'Chrome']
 			},
 
 			sauceTask: {
@@ -207,14 +220,6 @@ module.exports = function(grunt) {
 		}
 
 	});
-	var travisBuild = process.env.BUILD;
-	var pullRequest = process.env.TRAVIS_PULL_REQUEST;
-
-	var compatBuild = ['clean', 'packager:all', 'packager:specs'];
-	var nocompatBuild = ['clean', 'packager:nocompat', 'packager:specs-nocompat'];
-
-	var tasks = travisBuild == 'compat' ? compatBuild : nocompatBuild;
-	tasks =  pullRequest != 'false' ? tasks.concat('karma:continuous') : tasks.concat('karma:sauceTask');
 
 	grunt.registerTask('default', compatBuild);
 	grunt.registerTask('nocompat', nocompatBuild);
