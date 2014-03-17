@@ -22,10 +22,10 @@ This means `1.4.6` that is compatible with: `1.3.x`, `1.2.x`, and so on.
 ### Building MooTools _Without_ Compatibility
 This means `1.4.6` **without** deprecated code in `1.3.x`, `1.2.x`, and so on.
 
-``` js
-'Proceed at your own risk'
+___Proceed at your own risk___
+
 See the changelog or the blog related to each version for migrating your code.
-```
+
 
 **Examples**
 
