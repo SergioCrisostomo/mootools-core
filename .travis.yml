@@ -10,14 +10,14 @@ env:
     - BROWSER='ie9'             BUILD='default'
     - BROWSER='ie8'             BUILD='default'
     - BROWSER='ie7'             BUILD='default'
-#    - BROWSER='ie6'             BUILD='default'  
+    - BROWSER='ie6'             BUILD='default'  
 
     - BROWSER='ie11'            BUILD='nocompat'
     - BROWSER='ie10'            BUILD='nocompat'
     - BROWSER='ie9'             BUILD='nocompat'
     - BROWSER='ie8'             BUILD='nocompat'
     - BROWSER='ie7'             BUILD='nocompat'
-#    - BROWSER='ie6'             BUILD='nocompat'
+    - BROWSER='ie6'             BUILD='nocompat'
     
   global:
     - SAUCE_USERNAME=sergiosbox_core
