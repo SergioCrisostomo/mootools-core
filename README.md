@@ -6,8 +6,8 @@
   </a> 
 </p>
 <p align="right">
-  <a href="https://saucelabs.com/u/mootools-core">
-    <img src="https://saucelabs.com/browser-matrix/mootools-core.svg" alt="Selenium Tests Status" />
+  <a href="https://saucelabs.com/u/sergiosbox_core">
+    <img src="https://saucelabs.com/browser-matrix/sergiosbox_core.svg" alt="Selenium Tests Status" />
   </a>  
 </p>
 
