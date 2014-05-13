@@ -6,6 +6,15 @@ module.exports = function(grunt) {
 	var browser = process.env.BROWSER;
 	var travisBuild = process.env.BUILD;
 	var pullRequest = process.env.TRAVIS_PULL_REQUEST;
+    
+    console.log(process.env.BUILD, process.env.TRAVIS_BUILD_NUMBER, process.env.TRAVIS_JOB_ID);
+    
+	function getBuildName(){
+		var date = new Date();
+		var hours = date.getHours();
+		var minutes = date.getHours();
+		return travisBuild + '_' + hours + 'h' + minutes + 'm';
+	}
 
 	grunt.initConfig({
 		'connect': {
@@ -83,7 +92,8 @@ module.exports = function(grunt) {
 				sauceLabs: {
 					username: process.env.SAUCE_USERNAME,
 					accessKey: process.env.SAUCE_ACCESS_KEY,
-					testName: 'MooTools-Core. Build: ' + travisBuild + '. Browser: ' + browser
+					testName: 'MooTools-Core. Build: ' + travisBuild + '. Browser: ' + browser,
+					build: getBuildName()
 				},
 				reporters: ['progress', 'saucelabs'],
 				customLaunchers: {
@@ -220,4 +230,21 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', compatBuild.concat('karma:continuous'));
 	grunt.registerTask('nocompat', nocompatBuild.concat('karma:continuous'));
 	grunt.registerTask('default:travis', tasks);
+  /*
+    grunt.registerTask('default:travis', [
+		'clean',
+		'packager:all',
+		'packager:specs',
+		'karma:sauce1',
+		'karma:sauce2',
+		'karma:sauce3',
+		'karma:sauce4',
+        'clean',
+		'packager:nocompat',
+		'packager:specs-nocompat',
+		'karma:sauce1',
+		'karma:sauce2',
+		'karma:sauce3',
+		'karma:sauce4'
+	])/**/
 };
