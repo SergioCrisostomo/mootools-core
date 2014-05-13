@@ -13,7 +13,8 @@ module.exports = function(grunt) {
 		var date = new Date();
 		var hours = date.getHours();
 		var minutes = date.getHours();
-		return travisBuild + '_' + hours + 'h' + minutes + 'm';
+	//	return travisBuild + '_' + hours + 'h' + minutes + 'm';
+		return Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
 	}
 
 	grunt.initConfig({
