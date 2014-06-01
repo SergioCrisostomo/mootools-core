@@ -65,6 +65,11 @@ describe('Element constructor', function(){
 			expect(document.getElementsByName(name)[0]).toEqual(input);
 			dad.dispose();
 		});
+		
+		it('should create an element with type="email"', function(){
+			var el = new Element('input', {type: 'email'});
+			expect(el.get('type')).toMatch(/email|text/);
+		});
 	});
 
 	it('should return input Elements that are checked', function(){
