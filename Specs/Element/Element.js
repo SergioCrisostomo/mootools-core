@@ -66,11 +66,13 @@ describe('Element constructor', function(){
 			dad.dispose();
 		});
 		
-		it('should create an element with type="email"', function(){
-			var el = new Element('input', {type: 'email'});
-			expect(el.get('type')).toMatch(/email|text/);
-		});
 	});
+	
+	it('should create an element with type="email"', function(){
+		var el = new Element('input', {type: 'email'});
+		expect(el.get('type').match(/email|text/)).toBeTruthy();
+	});
+	
 
 	it('should return input Elements that are checked', function(){
 		var check1 = new Element('input', { type: 'checkbox' });
