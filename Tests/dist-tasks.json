@@ -17,7 +17,7 @@
     },
     "uglify": {
         "options": {
-            "mangle": false,
+            "mangle": true,
             "compress": true
         },
         "dist": {
