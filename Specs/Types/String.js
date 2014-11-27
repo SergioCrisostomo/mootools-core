@@ -13,6 +13,7 @@ describe("String Methods", function(){
 	it('should capitalize each word', function(){
 		expect('i like cookies'.capitalize()).toEqual('I Like Cookies');
 		expect('I Like cOOKIES'.capitalize()).toEqual('I Like COOKIES');
+		expect('a música é universal'.capitalize()).toEqual('A Música É Universal');
 	});
 
 	// String.camelCase

@@ -47,8 +47,8 @@ String.implement({
 	},
 
 	capitalize: function(){
-		return String(this).replace(/\b[a-z]/g, function(match){
-			return match.toUpperCase();
+		return String(this).replace(/([^A-zÀ-ú]?)([A-zÀ-ú]+)/g, function(match, separator, word){
+			return separator + word.charAt(0).toUpperCase() + word.slice(1);
 		});
 	},
 
