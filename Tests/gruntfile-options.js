@@ -66,7 +66,12 @@ var karmaOptions = {
     captureTimeout: 60000 * 2,
     singleRun: true,
     frameworks: ['jasmine', 'sinon'],
-    files: ['Tests/Utilities/*.js', 'mootools-*.js'],
+    files: [
+        'Tests/Utilities/*.js',
+        'mootools-*.js',
+        {pattern: 'Source/**/*.*', included: false, served: true},
+        {pattern: 'Tests/DOMReady/*.*', included: false, served: true}
+    ],
     sauceLabs: {
         username: process.env.SAUCE_USERNAME,
         accessKey: process.env.SAUCE_ACCESS_KEY,

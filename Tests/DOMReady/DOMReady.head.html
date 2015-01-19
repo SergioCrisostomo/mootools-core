@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<title>Normal DOMReady scenario</title>
+
+		<script src="/base/mootools-all.js" type="text/javascript"></script>
+		<script src="/base/mootools-nocompat.js" type="text/javascript"></script>
+	</head>
+	<body>
+
+		<script>
+		function callback(){
+			window.callbackFired = true;
+		}
+
+		window.callbackFired = false;
+		window.addEvent('domready', callback);
+		</script>
+	</body>
+</html>
+
