@@ -77,6 +77,7 @@ if ('onreadystatechange' in document) document.addListener('readystatechange', c
 else shouldPoll = true;
 
 if (shouldPoll) poll();
+if (!ready) check();
 
 Element.Events.domready = {
 	onAdd: function(fn){
