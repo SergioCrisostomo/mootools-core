@@ -50,7 +50,7 @@ var poll = function(){
 
 document.addListener('DOMContentLoaded', domready);
 
-/*<ltIE8>*/
+/*<ltIE8>
 // doScroll technique by Diego Perini http://javascript.nwbox.com/IEContentLoaded/
 // testElement.doScroll() throws when the DOM is not ready, only in the top window
 var doScrollWorks = function(){
