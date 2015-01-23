@@ -1,4 +1,28 @@
 "use strict";
+var fs = require('fs');
+var http = require('http');
+var build = process.argv[2] || 'all';
+
+http.createServer(function(req, res){
+	if (req.url.indexOf('flush') != -1){
+
+		res.writeHead(200, {'Content-Type': 'text/html'});
+		res.write('<html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8" /><title>Flushed page scenario</title><script src="' + __dirname + '/mootools-' + build + '.js" type="text/javascript"></script><script>window.moments = []; moments.push(document.readyState); function callback(){ window.callbackFired = true; moments.push(document.readyState); } window.callbackFired = false; window.addEvent("domready", callback);</script></head>');
+		setTimeout(function() { 	
+			res.write('<body><div>body added...</div><script>moments.push(document.readyState);</script></body>');                                                          
+			setTimeout(function() { 
+				res.end('</html>');
+			}, 2000);                                                                      
+		}, 2000);
+
+	} else {
+		fs.readFile(__dirname + '/tests/DOMReady/' + req.url, 'utf-8', function (err, content) {
+			if (err) return console.log(err);
+			content = content.replace('mootoolsPath', __dirname + '/mootools-' + build);
+			res.end(content);
+		});
+	}
+}).listen(9000);
 
 module.exports = function(grunt) {
 
@@ -26,7 +50,7 @@ module.exports = function(grunt) {
 		'karma': {
 			options: options.karma,
 			continuous: {
-				browsers: ['PhantomJS']
+				browsers: ['Chrome']
 			},
 			sauceTask: {
 				browsers: [options.travis.browser]
