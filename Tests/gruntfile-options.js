@@ -64,6 +64,7 @@ var gruntOptions = {
 
 var karmaOptions = {
     captureTimeout: 60000 * 2,
+	browserNoActivityTimeout: 100000,
     singleRun: true,
     frameworks: ['jasmine', 'sinon'],
     files: [
