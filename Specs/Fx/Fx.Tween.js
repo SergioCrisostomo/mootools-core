@@ -75,6 +75,37 @@ describe('Fx.Tween', function(){
 
 	});
 
+	it('should fade out an element and fade in when triggerd inside the onComplete event', function(){
+
+		var element = new Element('div').inject($(document.body));
+		var firstOpacity, firstVisibility, lastOpacity, lastVisibility, runOnce = true;
+		element.set('tween', {
+			duration: 100,
+			onComplete: function(){
+                if(runOnce){
+                    firstOpacity = this.element.getStyle('opacity');
+					firstVisibility = this.element.getStyle('visibility');
+                    this.element.fade(); // fade back in
+                    runOnce = false;
+                }
+        
+			}
+		});
+
+		element.fade(); // fade out
+		this.clock.tick(250);
+		// after fade out & fade back in
+		lastOpacity = element.getStyle('opacity');
+		lastVisibility = element.getStyle('visibility');
+		// onComplete of fade ou
+		expect(firstOpacity.toInt()).toEqual(0);
+		expect(firstVisibility).toEqual('hidden');
+		// onComplete of fade back in
+		expect(lastOpacity.toInt()).toEqual(1);
+		expect(lastVisibility).toEqual('visible');
+		element.destroy();
+	});
+
 	it('should fade an element with toggle', function(){
 
 		var element = new Element('div', {
