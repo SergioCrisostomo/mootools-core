@@ -102,6 +102,7 @@ var Fx = this.Fx = new Class({
 			this.time = null;
 			pullInstance.call(this, this.options.fps);
 			if (this.frames == this.frame){
+				if (this.atComplete) this.atComplete();
 				this.fireEvent('complete', this.subject);
 				if (!this.callChain()) this.fireEvent('chainComplete', this.subject);
 			} else {

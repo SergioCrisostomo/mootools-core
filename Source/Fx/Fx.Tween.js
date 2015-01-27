@@ -87,11 +87,11 @@ Element.implement({
 		if (!toggle) this.eliminate('fade:flag');
 		fade[method].apply(fade, args);
 		var to = args[args.length - 1];
-		if (method == 'set' || to != 0) this.setStyle('visibility', to == 0 ? 'hidden' : 'visible');
-		else fade.chain(function(){
-			this.element.setStyle('visibility', 'hidden');
-			this.callChain();
-		});
+		var subject = this;
+		if (method == 'set') this.setStyle('visibility', to == 0 ? 'hidden' : 'visible');
+		else fade.atComplete = function(){
+			subject.setStyle('visibility', to == 0 ? 'hidden' : 'visible');
+		}
 		return this;
 	},
 
