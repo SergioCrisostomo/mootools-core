@@ -311,7 +311,7 @@ Object.extend({
 
 	keys: function(object){
 		var keys = [];
-		each(object, function(key, value){
+		each.call(this, object, function(key, value){
 			keys.push(key);
 		});
 		return keys;
