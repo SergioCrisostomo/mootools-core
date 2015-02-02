@@ -57,27 +57,30 @@ var instanceOf = this.instanceOf = function(item, object){
 	return item instanceof object;
 };
 
-// Function overloading
-
-var Function = this.Function;
-
+/*<ltIE8>*/
 var enumerables = true;
 for (var i in {toString: 1}) enumerables = null;
 if (enumerables) enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'];
+function each(object, fn){
+    for (var k in object) fn.call(this, k, object[k]);
+    if (enumerables) for (var i = enumerables.length; i--;){
+        k = enumerables[i];
+        if (object.hasOwnProperty(k)) fn.call(this, k, object[k]);
+    }
+}
+/*</ltIE8>*/
+
+// Function overloading
+
+var Function = this.Function;
 
 Function.prototype.overloadSetter = function(usePlural){
 	var self = this;
 	return function(a, b){
 		if (a == null) return this;
-		if (usePlural || typeof a != 'string'){
-			for (var k in a) self.call(this, k, a[k]);
-			if (enumerables) for (var i = enumerables.length; i--;){
-				k = enumerables[i];
-				if (a.hasOwnProperty(k)) self.call(this, k, a[k]);
-			}
-		} else {
-			self.call(this, a, b);
-		}
+
+		if (usePlural || typeof a != 'string') each.call(this, a, self);
+		else self.call(this, a, b);
 		return this;
 	};
 };
@@ -301,21 +304,24 @@ Number.extend('random', function(min, max){
 	return Math.floor(Math.random() * (max - min + 1) + min);
 });
 
-// forEach, each
+// forEach, each, keys
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
-Object.extend('forEach', function(object, fn, bind){
-	for (var key in object){
-		if (hasOwnProperty.call(object, key)) fn.call(bind, object[key], key, object);
+Object.extend({
+
+	keys: function(object){
+		var keys = [];
+		each(object, function(key, value){
+			keys.push(key);
+		});
+		return keys;
+	},
+
+	forEach: function(object, fn, bind){
+		Object.keys(object).forEach(function(key){
+			fn.call(bind, object[key], key, object);
+		});
 	}
-	/*<ltIE8>*/
-	if (enumerables){
-		for (var i = 0; i < enumerables.length; i++){
-			var key = enumerables[i];
-			if (hasOwnProperty.call(object, key)) fn.call(bind, object[key], key, object);
-		}
-	}
-	/*</ltIE8>*/
 });
 
 Object.each = Object.forEach;

@@ -22,8 +22,7 @@ Object.extend({
 
 	subset: function(object, keys){
 		var results = {};
-		for (var i = 0, l = keys.length; i < l; i++){
-			var k = keys[i];
+		for (var i = 0; (k = keys[i]); i++){
 			if (k in object) results[k] = object[k];
 		}
 		return results;
@@ -31,7 +30,8 @@ Object.extend({
 
 	map: function(object, fn, bind){
 		var results = {};
-		for (var key in object){
+		var keys = Object.keys(object);
+		for (var i = 0; (key = keys[i]); i++){
 			if (hasOwnProperty.call(object, key)) results[key] = fn.call(bind, object[key], key, object);
 		}
 		return results;
@@ -39,7 +39,8 @@ Object.extend({
 
 	filter: function(object, fn, bind){
 		var results = {};
-		for (var key in object){
+		var keys = Object.keys(object);
+		for (var i = 0; (key = keys[i]); i++){
 			var value = object[key];
 			if (hasOwnProperty.call(object, key) && fn.call(bind, value, key, object)) results[key] = value;
 		}
@@ -47,33 +48,25 @@ Object.extend({
 	},
 
 	every: function(object, fn, bind){
-		for (var key in object){
+		var keys = Object.keys(object);
+		for (var i = 0; (key = keys[i]); i++){
 			if (hasOwnProperty.call(object, key) && !fn.call(bind, object[key], key)) return false;
 		}
 		return true;
 	},
 
 	some: function(object, fn, bind){
-		for (var key in object){
+		var keys = Object.keys(object);
+		for (var i = 0; (key = keys[i]); i++){
 			if (hasOwnProperty.call(object, key) && fn.call(bind, object[key], key)) return true;
 		}
 		return false;
 	},
 
-	keys: function(object){
-		var keys = [];
-		for (var key in object){
-			if (hasOwnProperty.call(object, key)) keys.push(key);
-		}
-		return keys;
-	},
-
 	values: function(object){
-		var values = [];
-		for (var key in object){
-			if (hasOwnProperty.call(object, key)) values.push(object[key]);
-		}
-		return values;
+		return Object.keys(object).map(function(key){
+			return object[key];
+		});
 	},
 
 	getLength: function(object){
@@ -81,7 +74,8 @@ Object.extend({
 	},
 
 	keyOf: function(object, value){
-		for (var key in object){
+		var keys = Object.keys(object);
+		for (var i = 0; (key = keys[i]); i++){
 			if (hasOwnProperty.call(object, key) && object[key] === value) return key;
 		}
 		return null;
