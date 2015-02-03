@@ -34,7 +34,7 @@ Object.extend({
 		var keys = Object.keys(object);
 		for (var i = 0; i < keys.length; i++){
 			var key = keys[i];
-			if (hasOwnProperty.call(object, key)) results[key] = fn.call(bind, object[key], key, object);
+			results[key] = fn.call(bind, object[key], key, object);
 		}
 		return results;
 	},
@@ -44,7 +44,7 @@ Object.extend({
 		var keys = Object.keys(object);
 		for (var i = 0; i < keys.length; i++){
 			var key = keys[i], value = object[key];
-			if (hasOwnProperty.call(object, key) && fn.call(bind, value, key, object)) results[key] = value;
+			if (fn.call(bind, value, key, object)) results[key] = value;
 		}
 		return results;
 	},
@@ -53,7 +53,7 @@ Object.extend({
 		var keys = Object.keys(object);
 		for (var i = 0; i < keys.length; i++){
 			var key = keys[i];
-			if (hasOwnProperty.call(object, key) && !fn.call(bind, object[key], key)) return false;
+			if (!fn.call(bind, object[key], key)) return false;
 		}
 		return true;
 	},
@@ -62,7 +62,7 @@ Object.extend({
 		var keys = Object.keys(object);
 		for (var i = 0; i < keys.length; i++){
 			var key = keys[i];
-			if (hasOwnProperty.call(object, key) && fn.call(bind, object[key], key)) return true;
+			if (fn.call(bind, object[key], key)) return true;
 		}
 		return false;
 	},
@@ -81,7 +81,7 @@ Object.extend({
 		var keys = Object.keys(object);
 		for (var i = 0; i < keys.length; i++){
 			var key = keys[i];
-			if (hasOwnProperty.call(object, key) && object[key] === value) return key;
+			if (object[key] === value) return key;
 		}
 		return null;
 	},

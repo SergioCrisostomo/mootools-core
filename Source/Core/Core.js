@@ -62,16 +62,16 @@ var enumerables = true;
 for (var i in {toString: 1}) enumerables = null;
 if (enumerables) enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'];
 /*</ltIE8>*/
-function eachKey(object, fn){
-    for (var k in object) fn.call(this, k, object[k]);
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function eachKey(object, fn, thisArg){
+    for (var k in object) fn.call(thisArg, k, object[k]);
 	/*<ltIE8>*/
     if (enumerables) for (var i = enumerables.length; i--;){
         k = enumerables[i];
-        if (object.hasOwnProperty(k)) fn.call(this, k, object[k]);
+        if (hasOwnProperty.call(object, k)) fn.call(thisArg, k, object[k]);
     }
 	/*</ltIE8>*/
 }
-
 
 // Function overloading
 
@@ -81,8 +81,7 @@ Function.prototype.overloadSetter = function(usePlural){
 	var self = this;
 	return function(a, b){
 		if (a == null) return this;
-
-		if (usePlural || typeof a != 'string') eachKey.call(this, a, self);
+		if (usePlural || typeof a != 'string') eachKey(a, self, this);
 		else self.call(this, a, b);
 		return this;
 	};
@@ -309,14 +308,13 @@ Number.extend('random', function(min, max){
 
 // forEach, each, keys
 
-var hasOwnProperty = Object.prototype.hasOwnProperty;
 Object.extend({
 
 	keys: function(object){
 		var keys = [];
 		eachKey(object, function(key, value){
-			if (object.hasOwnProperty(key)) keys.push(key);
-		});
+			if (hasOwnProperty.call(object, key)) keys.push(key);
+		}, this);
 		return keys;
 	},
 
@@ -325,6 +323,7 @@ Object.extend({
 			fn.call(bind, object[key], key, object);
 		});
 	}
+
 });
 
 Object.each = Object.forEach;
