@@ -795,7 +795,6 @@ describe('Object.each', function(){
 		var obj = {
 			foo: 'bar',
 			constructor: "constructor",
-			hasOwnProperty: "hasOwnProperty",
 			isPrototypeOf: "isPrototypeOf",
 			propertyIsEnumerable: "propertyIsEnumerable",
 			toLocaleString: "toLocaleString",
@@ -804,7 +803,7 @@ describe('Object.each', function(){
 		};
 
 		var keysInObject = true, iteration = 0;
-		var props = ['foo', 'hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'].join('');
+		var props = ['foo', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'].join('');
 
 		Object.each(obj, function(i, k){
 			iteration++;
@@ -812,7 +811,7 @@ describe('Object.each', function(){
 		});
 
 		expect(keysInObject).toBeTruthy();
-		expect(iteration).toEqual(8);
+		expect(iteration).toEqual(7);
 	});
 	/*</ltIE8>*/
 

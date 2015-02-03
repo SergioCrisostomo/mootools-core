@@ -61,14 +61,17 @@ var instanceOf = this.instanceOf = function(item, object){
 var enumerables = true;
 for (var i in {toString: 1}) enumerables = null;
 if (enumerables) enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'];
-function each(object, fn){
+/*</ltIE8>*/
+function eachKey(object, fn){
     for (var k in object) fn.call(this, k, object[k]);
+	/*<ltIE8>*/
     if (enumerables) for (var i = enumerables.length; i--;){
         k = enumerables[i];
         if (object.hasOwnProperty(k)) fn.call(this, k, object[k]);
     }
+	/*</ltIE8>*/
 }
-/*</ltIE8>*/
+
 
 // Function overloading
 
@@ -79,7 +82,7 @@ Function.prototype.overloadSetter = function(usePlural){
 	return function(a, b){
 		if (a == null) return this;
 
-		if (usePlural || typeof a != 'string') each.call(this, a, self);
+		if (usePlural || typeof a != 'string') eachKey.call(this, a, self);
 		else self.call(this, a, b);
 		return this;
 	};
@@ -311,8 +314,8 @@ Object.extend({
 
 	keys: function(object){
 		var keys = [];
-		each.call(this, object, function(key, value){
-			keys.push(key);
+		eachKey(object, function(key, value){
+			if (object.hasOwnProperty(key)) keys.push(key);
 		});
 		return keys;
 	},

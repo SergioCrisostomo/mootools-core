@@ -22,7 +22,8 @@ Object.extend({
 
 	subset: function(object, keys){
 		var results = {};
-		for (var i = 0; (k = keys[i]); i++){
+		for (var i = 0, l = keys.length; i < l; i++){
+			var k = keys[i];
 			if (k in object) results[k] = object[k];
 		}
 		return results;
@@ -31,7 +32,8 @@ Object.extend({
 	map: function(object, fn, bind){
 		var results = {};
 		var keys = Object.keys(object);
-		for (var i = 0; (key = keys[i]); i++){
+		for (var i = 0; i < keys.length; i++){
+			var key = keys[i];
 			if (hasOwnProperty.call(object, key)) results[key] = fn.call(bind, object[key], key, object);
 		}
 		return results;
@@ -40,8 +42,8 @@ Object.extend({
 	filter: function(object, fn, bind){
 		var results = {};
 		var keys = Object.keys(object);
-		for (var i = 0; (key = keys[i]); i++){
-			var value = object[key];
+		for (var i = 0; i < keys.length; i++){
+			var key = keys[i], value = object[key];
 			if (hasOwnProperty.call(object, key) && fn.call(bind, value, key, object)) results[key] = value;
 		}
 		return results;
@@ -49,7 +51,8 @@ Object.extend({
 
 	every: function(object, fn, bind){
 		var keys = Object.keys(object);
-		for (var i = 0; (key = keys[i]); i++){
+		for (var i = 0; i < keys.length; i++){
+			var key = keys[i];
 			if (hasOwnProperty.call(object, key) && !fn.call(bind, object[key], key)) return false;
 		}
 		return true;
@@ -57,7 +60,8 @@ Object.extend({
 
 	some: function(object, fn, bind){
 		var keys = Object.keys(object);
-		for (var i = 0; (key = keys[i]); i++){
+		for (var i = 0; i < keys.length; i++){
+			var key = keys[i];
 			if (hasOwnProperty.call(object, key) && fn.call(bind, object[key], key)) return true;
 		}
 		return false;
@@ -75,7 +79,8 @@ Object.extend({
 
 	keyOf: function(object, value){
 		var keys = Object.keys(object);
-		for (var i = 0; (key = keys[i]); i++){
+		for (var i = 0; i < keys.length; i++){
+			var key = keys[i];
 			if (hasOwnProperty.call(object, key) && object[key] === value) return key;
 		}
 		return null;
