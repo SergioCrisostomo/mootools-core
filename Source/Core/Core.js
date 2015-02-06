@@ -333,7 +333,17 @@ Array.implement({
 
 Object.extend({
 
-	keys: objectKeys,
+	keys: function (object){
+		var keys = [];
+		for (var k in object) if (hasOwnProperty.call(object, k)) keys.push(k);
+		/*<ltIE8>*/
+		if (enumerables) for (var i = enumerables.length; i--;){
+			k = enumerables[i];
+			if (hasOwnProperty.call(object, k)) keys.push(k);
+		}
+		/*</ltIE8>*/
+		return keys;
+	},
 
 	forEach: function(object, fn, bind){
 		Object.keys(object).forEach(function(key){
