@@ -63,9 +63,12 @@ for (var i in {toString: 1}) enumerables = null;
 if (enumerables) enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'];
 /*</ltIE8>*/
 var hasOwnProperty = Object.prototype.hasOwnProperty;
-function objectKeys(object){
+function objectKeys(object, alsoPrototypeChain){
 	var keys = [];
-    for (var k in object) keys.push(k);
+    for (var k in object){
+		if (alsoPrototypeChain) keys.push(k);
+		else hasOwnProperty.call(object, k) && keys.push(k);
+	}
 	/*<ltIE8>*/
 	if (enumerables) for (var i = enumerables.length; i--;){
 		k = enumerables[i];
@@ -84,7 +87,7 @@ Function.prototype.overloadSetter = function(usePlural){
 	return function(a, b){
 		if (a == null) return this;
 		if (usePlural || typeof a != 'string'){
-			var keys = objectKeys(a), k;
+			var keys = objectKeys(a, true), k;
 			for (var i = 0; k = keys[i]; i++) self.call(this, k, a[k]);
 		} else {
 			self.call(this, a, b);
@@ -333,17 +336,7 @@ Array.implement({
 
 Object.extend({
 
-	keys: function (object){
-		var keys = [];
-		for (var k in object) if (hasOwnProperty.call(object, k)) keys.push(k);
-		/*<ltIE8>*/
-		if (enumerables) for (var i = enumerables.length; i--;){
-			k = enumerables[i];
-			if (hasOwnProperty.call(object, k)) keys.push(k);
-		}
-		/*</ltIE8>*/
-		return keys;
-	},
+	keys: objectKeys,
 
 	forEach: function(object, fn, bind){
 		Object.keys(object).forEach(function(key){
