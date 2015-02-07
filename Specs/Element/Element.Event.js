@@ -362,6 +362,62 @@ describe('Element.Event keyup with f<key>', function(){
 
 });
 
+describe('Keypress key code', function(){
+
+	var input, key, shift, done;
+	function keyHandler(e){
+		key = e.key;
+		shift = !!e.event.shiftKey;
+	}
+	function typeWriter(action){
+		// make a syntethic shift
+		setTimeout(function () {
+			Syn.type(action, 'keyTester');
+		}, 1);
+		if (done) return true;
+	}
+
+	beforeEach(function(){
+		input = new Element('input', {
+			'type': 'text',
+			'id': 'keyTester'
+		}).addEvent('keypress', keyHandler).inject(document.body);
+	});
+
+	afterEach(function(){
+		input.removeEvent('keypress', keyHandler).destroy();
+		input = key = shift = done = null;
+	});
+
+	it('should press the key "m"', function(){
+		typeWriter('m');
+		waits(50);
+		runs(function() {
+			expect(key).toBe('m');
+			expect(shift).not.toBeTruthy();
+		});
+	});
+
+	it('should press the key 1', function(){
+		typeWriter('1');
+		waits(50);
+		runs(function() {
+			expect(key).toBe('1');
+			expect(shift).not.toBeTruthy();
+		});
+	});
+
+	it('should press SHIFT + 1', function(){
+		typeWriter('[shift]![shift-up]');
+		waits(50);
+		runs(function() {
+			expect(key).toBe(false);
+			expect(shift).toBeTruthy();
+		});
+	});
+
+});
+
 describe('Element.removeEvent', function(){
 
 	it('should remove the onunload method', function(){
