@@ -33,7 +33,7 @@ describe("DOMReady", function(){
 	});
 
 	it('should fire DOMReady, after flushing, when the DOM is ready', function(){
-		frame = newFrame('foo?assets=flush');
+		frame = newFrame('assets=flush');
 		frame.addEvent('load', function(){
 			win = frame.contentWindow;
 			expect(win.moments[0]).toEqual('loading');
