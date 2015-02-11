@@ -80,6 +80,8 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function(event, win){
 			this.page = {x: touch.pageX, y: touch.pageY};
 			this.client = {x: touch.clientX, y: touch.clientY};
 		}
+	} else if (type == 'pageshow' || type == 'pagehide'){
+		this.persisted = event.persisted;
 	}
 
 	if (!this.client) this.client = {};

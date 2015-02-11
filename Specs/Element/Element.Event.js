@@ -534,4 +534,34 @@ describe('Mouse wheel', function(){
 	});
 });
 
+describe('Events pageshow, pagehide', function(){
+
+	// ignore PhantomJS and old browsers
+	if (navigator.userAgent.match(/phantomjs/i) || !'onpagehide' in window) return;
+
+	function newFrame(url){
+		var iframe = new IFrame({
+			src: 'specsserver/' + url
+		});
+		document.getElement('body').adopt(iframe);
+		return iframe;
+	}
+	window.firedEvent = [];
+	window.persistedProperty = [];
+	var frame = newFrame('DOMEvent/pageshow_pagehide.html');
+	it('should fire pageshow and pagehide events', function(){
+		waitsFor(function(){
+			return window.firedEvent.length > 1;
+		}, "the iframe to set variables in parent window", 4000);
+		runs(function(){
+			expect(window.firedEvent[0]).toBe('pageshow');
+			expect(window.persistedProperty[0]).toBeFalsy();
+			expect(window.firedEvent[1]).toBe('pagehide');
+			frame.destroy();
+			window.firedEvent = window.persistedProperty = null;
+		});
+	});
+
+});
+
 })();

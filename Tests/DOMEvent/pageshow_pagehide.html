@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<title>Normal DOMReady scenario</title>
+		<script src="mootoolsPath.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<script>
+		function callback(e){
+			parent.persistedProperty.push(e.persisted);
+			parent.firedEvent.push(e.type);
+			setTimeout(function(){
+				document.location.reload();
+			}, 100);
+		}
+		window.addEvent('pageshow', callback);
+		window.addEvent('pagehide', callback);
+		</script>
+	</body>
+</html>
