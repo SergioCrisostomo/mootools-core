@@ -36,7 +36,7 @@ var assets = {
 		setTimeout(function() { 	
 			res.write(bodyString);                                                          
 			setTimeout(function() { 
-				res.end();
+				res.end(endString);
 			}, 2000);                                                                      
 		}, 2000);
 	}
