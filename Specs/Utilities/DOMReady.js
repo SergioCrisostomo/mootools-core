@@ -87,7 +87,7 @@ describe("DOMReady", function(){
 					win.addEvent('domready', win.callback);
 					if (ready) clearInterval(i);
 				}
-			}, 50);
+			}, 200);
 		});
 		waitsFor(function(){
 			return checkStatus();
