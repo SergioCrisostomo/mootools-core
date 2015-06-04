@@ -368,6 +368,56 @@ Executes a function in the specified intervals of time. Periodic execution can b
 
 - [MDN setInterval][], [MDN clearInterval][]
 
+Function: Function.debounce {#Function:Function-debounce}
+-------------------------------------------------
+
+This method will return a new function that will be called only once per group of close calls. After a defined delay it will be abble to be called again.
+
+### Syntax:
+
+	var debounceFn = myFn.debounce({delay: 100});
+
+### Arguments:
+
+1. obj - (*mixed*) If this argument is a number it will use it as the *delay* timeout of the debounce. If this argument is a object it will allow more specific configuration. Leaving the argument empty will fall to default values.
+
+### Returns:
+
+* (*function*) A debounce function that will be called only once per group of close function calls.
+
+### Examples:
+
+	// get scroll position after scroll has stopped
+	var getNewScrollPosition = function () {
+		var scroll = window.getScroll();
+		alert(scroll.y);
+	}
+	window.addEvent('scroll', getNewScrollPosition.debounce(500));
+
+	// send a Request to server with data from a search field
+	// 500ms after you stopped typing, to avoid one request per character
+	var input = document.getElement('input');
+	var request = new Request({
+		url: 'your.url',
+		onSuccess: function(response) {
+			$('res').set('html', response);
+		}
+	});
+
+	function fn(){
+		request.send({data: {value: this.value}});   
+	}
+
+	input.addEventListener('keyup', fn.debounce(500));
+
+
+### Options:
+
+* *delay* - The delay after which the debounce function is called. Defaults to 250ms.
+* *early* - If *true* will call the function in the beggining of each groups of calls. Defaults to *false*.
+* *once* - If *true* will call the function only once per event handler. Defaults to *false*.
+
+
 
 Deprecated Functions {#Deprecated-Functions}
 ============================================
