@@ -433,14 +433,16 @@ describe('Function.periodical', function(){
 });
 
 describe('Debounce', function(){
-	var fn, debounceFn, caller, counter = 0,
-		debounceCalls = 0;
-		var sum = 0;
+	var fn, debounceFn, caller, scope,
+		counter = 0,
+		debounceCalls = 0,
+		sum = 0;
 
 	function startCaller(){
 		caller = setInterval(function(){
 			if (debounceFn){
 				counter++;
+				scope = this;
 				debounceFn();
 			}
 		}, 10);
@@ -477,10 +479,7 @@ describe('Debounce', function(){
 
 	it('should debounce early', function(){
 		expect(counter == debounceCalls && debounceCalls == 0).toBeTruthy(); // control spec
-		debounceFn = fn.debounce({
-			when: 'early',
-			delay: 150
-		});
+		debounceFn = fn.debounce(150, true);
 		waitsFor(function(){
 			if (counter > 19){
 				clearInterval(caller);
@@ -501,36 +500,6 @@ describe('Debounce', function(){
 		waits(200);
 		runs(function(){
 			expect(debounceCalls == 2).toBeTruthy();
-		});
-	});
-
-	it('should debounce once early', function(){
-		expect(counter == debounceCalls && debounceCalls == 0).toBeTruthy(); // control spec
-		debounceFn = fn.debounce({
-			when: 'early',
-			once: true,
-			delay: 150
-		});
-		waitsFor(function(){
-			if (counter > 19){
-				clearInterval(caller);
-				caller = null;
-				expect(debounceCalls == 1).toBeTruthy();
-				return true;
-			}
-		}, 'some calls to happen', 1000);
-
-		waits(200);
-		waitsFor(function(){
-			if (!caller) startCaller();
-			if (counter > 40){
-				clearInterval(caller);
-				return true;
-			}
-		}, 'even more calls to happen', 1000);
-		waits(200);
-		runs(function(){
-			expect(debounceCalls == 1).toBeTruthy();
 		});
 	});
 
@@ -563,100 +532,24 @@ describe('Debounce', function(){
 		});
 	});
 
-	it('should debounce once late', function(){
+	it('should have the right context', function(){
 		expect(counter == debounceCalls && debounceCalls == 0).toBeTruthy(); // control spec
-		debounceFn = fn.debounce({
-			when: 'late',
-			once: true
-		});
+		var context = null;
+
+		debounceFn = function(){
+			context = this;
+		}.debounce(150, true);
+
 		waitsFor(function(){
-			if (counter > 19){
+			if (counter > 40){
 				clearInterval(caller);
 				caller = null;
-				expect(debounceCalls == 0).toBeTruthy();
+				expect(context == scope).toBeTruthy();
+				expect(context != null).toBeTruthy();
 				return true;
 			}
 		}, 'some calls to happen', 1000);
-
-		waits(300);
-		waitsFor(function(){
-			if (!caller){
-				expect(debounceCalls == 1).toBeTruthy();
-				startCaller();
-			}
-			if (counter > 40){
-				clearInterval(caller);
-				return true;
-			}
-		}, 'even more calls to happen', 1000);
-		waits(300);
-		runs(function(){
-			expect(debounceCalls == 1).toBeTruthy();
-		});
-	});
-
-	it('should debounce both early and late', function(){
-		expect(counter == debounceCalls && debounceCalls == 0).toBeTruthy(); // control spec
-		debounceFn = fn.debounce({
-			when: 'both',
-			delay: 150
-		});
-		waitsFor(function(){
-			if (counter > 19){
-				clearInterval(caller);
-				caller = null;
-				expect(debounceCalls == 1).toBeTruthy();
-				return true;
-			}
-		}, 'some calls to happen', 1000);
-
-		waits(200);
-		waitsFor(function(){
-			if (!caller){
-				expect(debounceCalls == 2).toBeTruthy();
-				startCaller();
-			}
-			if (counter > 40){
-				clearInterval(caller);
-				return true;
-			}
-		}, 'even more calls to happen', 1000);
-		waits(200);
-		runs(function(){
-			expect(debounceCalls == 4).toBeTruthy();
-		});
-	});
-
-	it('should debounce both early and late, once', function(){
-		expect(counter == debounceCalls && debounceCalls == 0).toBeTruthy(); // control spec
-		debounceFn = fn.debounce({
-			when: 'both',
-			once: true
-		});
-		waitsFor(function(){
-			if (counter > 19){
-				clearInterval(caller);
-				caller = null;
-				expect(debounceCalls == 1).toBeTruthy();
-				return true;
-			}
-		}, 'some calls to happen', 1000);
-
-		waits(300);
-		waitsFor(function(){
-			if (!caller){
-				expect(debounceCalls == 2).toBeTruthy();
-				startCaller();
-			}
-			if (counter > 40){
-				clearInterval(caller);
-				return true;
-			}
-		}, 'even more calls to happen', 1000);
-		waits(300);
-		runs(function(){
-			expect(debounceCalls == 2).toBeTruthy();
-		});
 	});
 
 });
+

@@ -74,30 +74,27 @@ Function.implement({
 		return setInterval(this.pass((args == null ? [] : args), bind), periodical);
 	},
 
-	debounce: function(opts){
-		var timeout,
-			fn = this,
-			fireOnce = 0;
-		if (typeof opts == 'number') opts = {delay: opts};
-		else opts = opts || {};
-		if (!opts.delay) opts.delay = 250;
+    debounce: function(delay, leading){
+        var defenitiontime = new Date().getTime();
+        var timeout, args, self,
+        fn = this;
+        var callNow = leading;
 
-		return function(){
-			if (fireOnce == 2 && opts.when == 'both' || fireOnce && opts.when != 'both') return;
-			var self = this,
-				args = arguments,
-				callNow = !timeout && (opts.when == 'early' || opts.when == 'both');
-			var later = function(){
-				if (opts.when != 'early') fn.apply(self, args);
-				timeout = null;
-				if (opts.once) fireOnce = 2;
-			};
-			clearTimeout(timeout);
-			timeout = setTimeout(later, opts.delay);
-			if (callNow) fn.apply(self, args);
-			if (opts.once && callNow) fireOnce = 1;
-		};
-	}
+        var later = function(){
+            if (!leading) fn.apply(self, args);
+            if (leading) callNow = true;
+            timeout = null;
+        };
+        return function(){
+            self = this;
+            args = arguments;
+
+            clearTimeout(timeout);
+            timeout = setTimeout(later, delay || 250);
+            if (callNow) fn.apply(self, args);
+            callNow = false;
+        };
+    }
 
 });
 
