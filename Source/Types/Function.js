@@ -74,27 +74,27 @@ Function.implement({
 		return setInterval(this.pass((args == null ? [] : args), bind), periodical);
 	},
 
-    debounce: function(delay, leading){
-        var defenitiontime = new Date().getTime();
-        var timeout, args, self,
-        fn = this;
-        var callNow = leading;
+	debounce: function(delay, leading){
+		var defenitiontime = new Date().getTime();
+		var timeout, args, self,
+		fn = this;
+		var callNow = leading;
 
-        var later = function(){
-            if (!leading) fn.apply(self, args);
-            if (leading) callNow = true;
-            timeout = null;
-        };
-        return function(){
-            self = this;
-            args = arguments;
+		var later = function(){
+			if (!leading) fn.apply(self, args);
+			if (leading) callNow = true;
+			timeout = null;
+		};
+		return function(){
+			self = this;
+			args = arguments;
 
-            clearTimeout(timeout);
-            timeout = setTimeout(later, delay || 250);
-            if (callNow) fn.apply(self, args);
-            callNow = false;
-        };
-    }
+			clearTimeout(timeout);
+			timeout = setTimeout(later, delay || 250);
+			if (callNow) fn.apply(self, args);
+			callNow = false;
+		};
+	}
 
 });
 
