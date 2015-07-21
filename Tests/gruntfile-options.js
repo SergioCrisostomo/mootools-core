@@ -50,16 +50,17 @@ exports.combinationsExclude = {
 	firefox_linux: ['!ES6'],
 	opera_win2000: ['!ES6'],
 	safari8: ['!ES6'],
-	safari7: ['!ES6']	
+	safari7: ['!ES6'],
+	phantomjs: ['!ES6']
 }
 
 exports.multiplebuilds = function(block, specs, browser){
-	var strip = Array.isArray(block) ? block : [block];
+	block = Array.isArray(block) ? block : [block];
 	var add = specs ? '-specs' : '-source';
-	var dest = ['mootools-', block, add, '.js'].join(''); ;
+	var dest = ['mootools-', block[0], add, '.js'].join(''); ;
 	return {
         options: {
-            strip: strip,
+            strip: block,
             only: '<%= grunt.option("file") && "Core/" + grunt.option("file") %>'
         },
         src: specs ? 'Specs/**/*.js' : ymlPackage.sources,

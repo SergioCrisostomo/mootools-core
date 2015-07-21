@@ -50,13 +50,14 @@ module.exports = function(grunt) {
 	}
 
 	var taskSequence = [];
+	var karma = usePhantom ? 'karma:continuous' : 'karma:sauceTask';
 	options.buildBlocks.filter(function(block){
-		var blocksToNotTest = options.combinationsExclude[process.env.BROWSER];
+		var blocksToNotTest = options.combinationsExclude[process.env.BROWSER || 'phantomjs'];
 		return blocksToNotTest.indexOf(block) == -1;
 	}).forEach(function(block){
 		// no compat
-		gruntConfigObject.packager[block] = options.multiplebuilds([block, '*compat'], false);
-		gruntConfigObject.packager[block + '-specs'] = options.multiplebuilds([block, '*compat'], 'specs');
+		gruntConfigObject.packager[block + '-nocompat'] = options.multiplebuilds([block, '*compat'], false);
+		gruntConfigObject.packager[block + '-specs' + '-nocompat'] = options.multiplebuilds([block, '*compat'], 'specs');
 		taskSequence = taskSequence.concat(['clean:specs', 'packager:' + block + '-nocompat', 'packager:' + block + '-specs' + '-nocompat', karma]);
 		// compat
 		gruntConfigObject.packager[block] = options.multiplebuilds(block, false);
@@ -65,9 +66,7 @@ module.exports = function(grunt) {
 	})
 
 	grunt.initConfig(gruntConfigObject);
-	grunt.registerTask('default', compatBuild.concat('karma:continuous'));		// local testing - compat build
-	grunt.registerTask('nocompat', nocompatBuild.concat('karma:continuous'));	// local testing - no compat build
-	grunt.registerTask('default:travis', function(){							// Travis & Sauce Labs+
+	grunt.registerTask('default:travis', function(){
 		grunt.task.run(taskSequence);
 	});
 
