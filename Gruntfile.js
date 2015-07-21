@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 	var distTasks = JSON.parse(fs.readFileSync('Tests/dist-tasks.json'));
 	var options = require('./Tests/gruntfile-options');
 
-	grunt.initConfig({
+	var gruntConfigObject = {
 		'connect': options.grunt,
 		'packager': {
 			options: {name: 'Core'},
@@ -47,16 +47,30 @@ module.exports = function(grunt) {
 			dist: {src: 'dist/mootools-*.js'},
 			specs: {src: 'mootools-*.js'}
 		}
-	});
+	}
 
-	var compatBuild = ['clean:specs', 'packager:all', 'packager:specs'];
-	var nocompatBuild = ['clean:specs', 'packager:nocompat', 'packager:specs-nocompat'];
-	var tasks = options.travis.build == 'default' ? compatBuild : nocompatBuild;
-	tasks = usePhantom ? tasks.concat('karma:continuous') : tasks.concat('karma:sauceTask');
+	var taskSequence = [];
+	options.buildBlocks.filter(function(block){
+		var blocksToNotTest = options.combinationsExclude[process.env.BROWSER];
+		return blocksToNotTest.indexOf(block) == -1;
+	}).forEach(function(block){
+		// no compat
+		gruntConfigObject.packager[block] = options.multiplebuilds([block, '*compat'], false);
+		gruntConfigObject.packager[block + '-specs'] = options.multiplebuilds([block, '*compat'], 'specs');
+		taskSequence = taskSequence.concat(['clean:specs', 'packager:' + block + '-nocompat', 'packager:' + block + '-specs' + '-nocompat', karma]);
+		// compat
+		gruntConfigObject.packager[block] = options.multiplebuilds(block, false);
+		gruntConfigObject.packager[block + '-specs'] = options.multiplebuilds(block, 'specs');
+		taskSequence = taskSequence.concat(['clean:specs', 'packager:' + block, 'packager:' + block + '-specs', karma]);
+	})
 
+	grunt.initConfig(gruntConfigObject);
 	grunt.registerTask('default', compatBuild.concat('karma:continuous'));		// local testing - compat build
 	grunt.registerTask('nocompat', nocompatBuild.concat('karma:continuous'));	// local testing - no compat build
-	grunt.registerTask('default:travis', tasks);								// Travis & Sauce Labs
+	grunt.registerTask('default:travis', function(){							// Travis & Sauce Labs+
+		grunt.task.run(taskSequence);
+	});
+
 	grunt.registerTask('distBuild', [											// task to build and test /dist files
 		// Build dist files
 		'clean:dist', 'packager:dist-all', 'packager:dist-nocompat', 'packager:dist-server', 'uglify',
