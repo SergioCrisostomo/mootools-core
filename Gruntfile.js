@@ -9,7 +9,8 @@ module.exports = function(grunt) {
 	var usePhantom = process.env.TRAVIS_PULL_REQUEST != 'false' || process.env.BROWSER == 'phantomjs';
 	var distTasks = JSON.parse(fs.readFileSync('Tests/dist-tasks.json'));
 	var options = require('./Tests/gruntfile-options');
-
+	var whichBrowser = process.env.BROWSER;
+	console.log(whichBrowser); // Mr Travis tell me what names you give to Browsers
 	grunt.initConfig({
 		'connect': options.grunt,
 		'packager': {
