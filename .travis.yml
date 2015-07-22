@@ -5,18 +5,31 @@ node_js:
 
 env:
   matrix:
-    - BROWSER='chrome_linux'
-    - BROWSER='firefox_linux'
-    - BROWSER='opera_win2000'
-    - BROWSER='safari8'
-    - BROWSER='safari7'
-    - BROWSER='safari6'
-    - BROWSER='ie11'
-    - BROWSER='ie10'
-    - BROWSER='ie9'
-    - BROWSER='ie8'
-    - BROWSER='ie7'
-    - BROWSER='phantomjs'
+    - BROWSER='chrome_linux'    BUILD='default'
+    - BROWSER='firefox_linux'   BUILD='default'
+    - BROWSER='opera_win2000'   BUILD='default'
+    - BROWSER='safari8'         BUILD='default'
+    - BROWSER='safari7'         BUILD='default'
+    - BROWSER='safari6'         BUILD='default'
+    - BROWSER='ie11'            BUILD='default'
+    - BROWSER='ie10'            BUILD='default'
+    - BROWSER='ie9'             BUILD='default'
+    - BROWSER='ie8'             BUILD='default'
+    - BROWSER='ie7'             BUILD='default'
+    - BROWSER='phantomjs'       BUILD='default'
+
+    - BROWSER='chrome_linux'    BUILD='nocompat'
+    - BROWSER='firefox_linux'   BUILD='nocompat'
+    - BROWSER='opera_win2000'   BUILD='nocompat'
+    - BROWSER='safari8'         BUILD='nocompat'
+    - BROWSER='safari7'         BUILD='nocompat'
+    - BROWSER='safari6'         BUILD='nocompat'
+    - BROWSER='ie11'            BUILD='nocompat'
+    - BROWSER='ie10'            BUILD='nocompat'
+    - BROWSER='ie9'             BUILD='nocompat'
+    - BROWSER='ie8'             BUILD='nocompat'
+    - BROWSER='ie7'             BUILD='nocompat'
+    - BROWSER='phantomjs'       BUILD='nocompat'
 
   global:
     - SAUCE_USERNAME=sergiosbox_core
