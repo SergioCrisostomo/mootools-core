@@ -52,6 +52,7 @@ module.exports = function(grunt) {
 	var taskSequence = [];
 	var karma = usePhantom ? 'karma:continuous' : 'karma:sauceTask';
 	options.buildBlocks.filter(function(block){
+		console.log('debug log', process.env.BROWSER || 'phantomjs', options.combinationsExclude[process.env.BROWSER || 'phantomjs']);
 		var blocksToNotTest = options.combinationsExclude[process.env.BROWSER || 'phantomjs'];
 		return blocksToNotTest.indexOf(block) == -1;
 	}).forEach(function(block){
