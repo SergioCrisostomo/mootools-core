@@ -11,6 +11,31 @@ module.exports = function(grunt) {
 	var options = require('./Tests/gruntfile-options');
 
 	var gruntConfigObject = {
+		'saucelabs-jasmine': {
+			all: {
+				options: {
+					urls: ['www.example.com/qunitTests', 'www.example.com/mochaTests'],
+					build: process.env.CI_BUILD_NUMBER,
+					testname: 'Sauce Unit Test for example.com',
+					browsers: [["XP", "firefox", 19], ["XP", "chrome", 31]],
+					onTestComplete: function (result, callback) {
+						// Called after a unit test is done, per page, per browser
+						// 'result' param is the object returned by the test framework's reporter
+						// 'callback' is a Node.js style callback function. You must invoke it after you
+						// finish your work.
+						// Pass a non-null value as the callback's first parameter if you want to throw an
+						// exception. If your function is synchronous you can also throw exceptions
+						// directly.
+						// Passing true or false as the callback's second parameter passes or fails the
+						// test. Passing undefined does not alter the test result. Please note that this
+						// only affects the grunt task's result. You have to explicitly update the Sauce
+						// Labs job's status via its REST API, if you want so.
+						console.log(result, '**++++++++++++++++++++++**');
+						callback(true);
+					}
+				}
+			}
+		},
 		'connect': options.grunt,
 		'packager': {
 			options: {name: 'Core'},
@@ -68,7 +93,7 @@ module.exports = function(grunt) {
 
 	grunt.initConfig(gruntConfigObject);
 	grunt.registerTask('default:travis', function(){
-		grunt.task.run(taskSequence);
+		grunt.task.run('saucelabs-jasmine');
 	});
 
 	grunt.registerTask('distBuild', [											// task to build and test /dist files
