@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 						// only affects the grunt task's result. You have to explicitly update the Sauce
 						// Labs job's status via its REST API, if you want so.
 						console.log(result, '**++++++++++++++++++++++**');
-						callback(true);
+						callback(null, true);
 					}
 				}
 			}
