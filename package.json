@@ -47,6 +47,7 @@
     "karma-sauce-launcher": "~0.2.5",
     "karma-script-launcher": "~0.1.0",
     "karma-sinon": "~1.0.2",
-    "load-grunt-tasks": "~0.4.0"
+    "load-grunt-tasks": "~0.4.0",
+    "path": "^0.11.14"
   }
 }

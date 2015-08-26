@@ -6,11 +6,10 @@ var build = (function(){
 	// travis testing
 	if (process.env && process.env.BUILD) return process.env.BUILD == 'default' ? 'all' : 'nocompat'; 
 	// local testing
-	else return process.argv[2] == null || process.argv[2] == 'all' ? 'all' : 'nocompat';
+	else return process.argv[2] == 'default' || process.argv[2] == null ? 'all' : 'nocompat';
 })();
-require('./Tests/httpServer.js')(build);
 
-module.exports = function(grunt) {
+module.exports = function(grunt){
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	require('load-grunt-tasks')(grunt);
@@ -62,8 +61,8 @@ module.exports = function(grunt) {
 		}
 	});
 
-	var compatBuild = ['clean:specs', 'packager:all', 'packager:specs'];
-	var nocompatBuild = ['clean:specs', 'packager:nocompat', 'packager:specs-nocompat'];
+	var compatBuild = ['clean:specs', 'packager:all', 'packager:specs', 'httpServer'];
+	var nocompatBuild = ['clean:specs', 'packager:nocompat', 'packager:specs-nocompat', 'httpServer'];
 	var serverBuild = ['clean:specs', 'packager:server', 'packager:specs-server'];
 
 	var tasks = options.travis.build == 'default' ? compatBuild : options.travis.build == 'server' ? serverBuild : nocompatBuild;
@@ -87,5 +86,8 @@ module.exports = function(grunt) {
 		'clean:specs', 'packager:specs', 'karma:compatFull', 'karma:compatUglyfied',
 		'clean:specs', 'packager:specs-nocompat', 'karma:nocompatFull', 'karma:nocompatUglified'
 	]);
+	grunt.registerTask('httpServer', function(){
+		require('./Tests/httpServer.js')(build);
+	});
 
 };
