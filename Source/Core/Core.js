@@ -128,10 +128,12 @@ Function.from = function(item){
 	};
 };
 
-Array.from = function(item){
+/*<!ES5>*/
+if (!Array.from) Array.from = function(item){
 	if (item == null) return [];
 	return (Type.isEnumerable(item) && typeof item != 'string') ? (typeOf(item) == 'array') ? item : slice.call(item) : [item];
 };
+/*</!ES5>*/
 
 Number.from = function(item){
 	var number = parseFloat(item);
@@ -294,9 +296,11 @@ force('String', String, [
 
 Object.extend = extend.overloadSetter();
 
-Date.extend('now', function(){
+/*<!ES5>*/
+if (!Date.now) Date.extend('now', function(){
 	return +(new Date);
 });
+/*</!ES5>*/
 
 new Type('Boolean', Boolean);
 
