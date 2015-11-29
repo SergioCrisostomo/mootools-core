@@ -953,6 +953,7 @@ describe('Object.append', function(){
 
 });
 
+/*<!ES5>*/
 describe('Date.now', function(){
 
 	it('should return a timestamp', function(){
@@ -960,6 +961,7 @@ describe('Date.now', function(){
 	});
 
 });
+/*</!ES5>*/
 
 describe('String.uniqueID', function(){
 

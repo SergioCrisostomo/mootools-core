@@ -118,6 +118,14 @@ Function.prototype.implement = function(key, value){
 	this.prototype[key] = value;
 }.overloadSetter();
 
+/*<!ES6>*/
+if (!Array.of){
+	Array.of = function(){
+		return Array.prototype.slice.call(arguments);
+	};
+}
+/*</!ES6>*/
+
 // From
 
 var slice = Array.prototype.slice;
@@ -294,9 +302,11 @@ force('String', String, [
 
 Object.extend = extend.overloadSetter();
 
-Date.extend('now', function(){
+/*<!ES5>*/
+if (!Date.now) Date.extend('now', function(){
 	return +(new Date);
 });
+/*</!ES5>*/
 
 new Type('Boolean', Boolean);
 
