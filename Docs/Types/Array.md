@@ -82,16 +82,20 @@ Returns a copy of the passed array.
 
 This is an array-specific equivalent of *$unlink* from MooTools 1.2.
 
+Function: Array.from {#Array:Array:from}
+----------------------------------
 
+Since version `1.6` Array.from uses the ECMAScript 2015 (ES6) implementation, more info at [MDN Array:from][]. We kept the old MooTools implementation under the name of [Array:with][]. 
+For backwards compatibility the _compat layer_ still uses the old implementation, overriding the Native ES6 implementation. Please use _non compat_ version unless you know why not to.
 
-Function: Array.from {#Array:Array-from}
+Function: Array.with {#Array:Array:with}
 ----------------------------------
 
 Converts the argument passed in to an array if it is defined and not already an array.
 
 ### Syntax:
 
-	var splatted = Array.from(obj);
+	var splatted = Array.with(obj);
 
 ### Arguments:
 
@@ -103,15 +107,19 @@ Converts the argument passed in to an array if it is defined and not already an 
 
 ### Example:
 
-	Array.from('hello'); // returns ['hello'].
-	Array.from(['a', 'b', 'c']); // returns ['a', 'b', 'c'].
+	Array.with('hello'); // returns ['hello'].
+	Array.with(['a', 'b', 'c']); // returns ['a', 'b', 'c'].
 
 ### Notes:
 
-This is equivalent to *$splat* from MooTools 1.2, with the exception of Array-like Objects such as NodeList or FileList which `Array.from` does transform in
+This is equivalent to *$splat* from MooTools 1.2, with the exception of Array-like Objects such as NodeList or FileList which `Array.with` does transform in
 Arrays and `$splat` not.
 
+Function: Array.of {#Array:Array:of}
+----------------------------------
 
+This is a Polyfill for the ECMAScript 2015 (ES6) [Array.of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of). 
+The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
 
 Array method: each {#Array:each}
 ---------------------------------
@@ -778,11 +786,12 @@ Converts an RGB color value to hexadecimal. Input array must be in one of the fo
 - [String:rgbToHex][]
 
 
-
+[Array:with]: /core/Types/Array/#Array:with
 [Function:bind]: /core/Types/Function/#Function:bind
 [String:hexToRgb]: /core/Types/String/#String:hexToRgb
 [String:rgbToHex]: /core/Types/String/#String:rgbToHex
 [MDN Array]: https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array
+[MDN Array:from]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
 [MDN Array:every]: https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/every
 [MDN Array:filter]: https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/filter
 [MDN Array:indexOf]: https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/indexOf
