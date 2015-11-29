@@ -614,7 +614,7 @@ describe('instanceOf', function(){
 	});
 
 });
-
+/*<1.6compat>*/
 describe('Array.from', function(){
 
 	it('should return the same array', function(){
@@ -666,6 +666,7 @@ describe('Array.from', function(){
 	});
 
 });
+/*</1.6compat>*/
 
 describe('String.from', function(){
 
