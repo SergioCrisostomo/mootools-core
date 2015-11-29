@@ -3,7 +3,7 @@
 var rules = [
 	{regex: /function\s+\(/g, message: 'Unexpected whitespace between "function" and "("'},
 	{regex: /\)\s+{/g, message: 'Unexpected whitespace between ")" and "{"'},
-	{regex: /(catch|for|if|switch|while|with)\(/g, message: 'Expected whitespace between "%s" and "(" but found none'},
+	{regex: /^(?!\s)(catch|for|if|switch|while|with)\(/g, message: 'Expected whitespace between "%s" and "(" but found none'},
 	{regex: /}(catch|else|finally)/g, message: 'Expected whitespace between "}" and "%s" but found none'},
 	{regex: /(do|else|finally|try){/g, message: 'Expected whitespace between "%s" and "{" but found none'}
 ];
