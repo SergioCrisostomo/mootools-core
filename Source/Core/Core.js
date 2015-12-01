@@ -128,7 +128,7 @@ Function.from = function(item){
 	};
 };
 
-Array.from = function(item){
+Array.convert = function(item){
 	if (item == null) return [];
 	return (Type.isEnumerable(item) && typeof item != 'string') ? (typeOf(item) == 'array') ? item : slice.call(item) : [item];
 };
@@ -278,7 +278,7 @@ force('String', String, [
 	'charAt', 'charCodeAt', 'concat', 'contains', 'indexOf', 'lastIndexOf', 'match', 'quote', 'replace', 'search',
 	'slice', 'split', 'substr', 'substring', 'trim', 'toLowerCase', 'toUpperCase'
 ])('Array', Array, [
-	'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice',
+	'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice', 'from',
 	'indexOf', 'lastIndexOf', 'filter', 'forEach', 'every', 'map', 'some', 'reduce', 'reduceRight', 'contains'
 ])('Number', Number, [
 	'toExponential', 'toFixed', 'toLocaleString', 'toPrecision'
@@ -294,9 +294,76 @@ force('String', String, [
 
 Object.extend = extend.overloadSetter();
 
+/*<!ES5>*/
 Date.extend('now', function(){
 	return +(new Date);
 });
+/*</!ES5>*/
+
+/*<!ES6>*/
+// Production steps of ECMA-262, Edition 6, 22.1.2.1
+// Reference: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-array.from
+// MDN's implementation:
+Array.extend('from', (function(){
+	var toStr = Object.prototype.toString;
+	var isCallable = function(fn){
+		return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+	};
+	var toInteger = function(value){
+		var number = Number(value);
+		if (isNaN(number)){
+			return 0;
+		}
+		if (number === 0 || !isFinite(number)){
+			return number;
+		}
+		return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+	};
+	var maxSafeInteger = Math.pow(2, 53) - 1;
+	var toLength = function(value){
+		var len = toInteger(value);
+		return Math.min(Math.max(len, 0), maxSafeInteger);
+	};
+
+	return function from(arrayLike /*, mapFn, thisArg */ ){
+		var C = this;
+		var items = Object(arrayLike);
+		if (arrayLike == null){
+			throw new TypeError('Array.from requires an array-like object - not null or undefined');
+		}
+		var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+		var T;
+		if (typeof mapFn !== 'undefined'){
+			if (!isCallable(mapFn)){
+				throw new TypeError('Array.from: when provided, the second argument must be a function');
+			}
+
+			if (arguments.length > 2){
+				T = arguments[2];
+			}
+		}
+		var len = toLength(items.length);
+		var A = isCallable(C) ? Object(new C(len)) : new Array(len);
+		var k = 0;
+		var kValue;
+		while (k < len){
+			kValue = items[k];
+			if (mapFn){
+				A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+			} else {
+				A[k] = kValue;
+			}
+			k += 1;
+		}
+		A.length = len;
+		return A;
+	};
+})());
+/*</!ES6>*/
+
+/*<1.6compat>*/
+Array.from = Array.convert;
+/*</1.6compat>*/
 
 new Type('Boolean', Boolean);
 
@@ -479,7 +546,7 @@ Array.type = function(item){
 };
 
 this.$A = function(item){
-	return Array.from(item).slice();
+	return Array.convert(item).slice();
 };
 
 this.$arguments = function(i){
@@ -526,7 +593,7 @@ this.$merge = function(){
 this.$lambda = Function.from;
 this.$mixin = Object.merge;
 this.$random = Number.random;
-this.$splat = Array.from;
+this.$splat = Array.convert;
 this.$time = Date.now;
 
 this.$type = function(object){
