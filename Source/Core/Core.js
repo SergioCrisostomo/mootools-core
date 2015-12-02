@@ -128,7 +128,7 @@ Function.from = function(item){
 	};
 };
 
-Array.from = function(item){
+Array.convert = function(item){
 	if (item == null) return [];
 	return (Type.isEnumerable(item) && typeof item != 'string') ? (typeOf(item) == 'array') ? item : slice.call(item) : [item];
 };
@@ -294,9 +294,15 @@ force('String', String, [
 
 Object.extend = extend.overloadSetter();
 
+/*<!ES5>*/
 Date.extend('now', function(){
 	return +(new Date);
 });
+/*</!ES5>*/
+
+/*<1.5compat>*/
+Array.from = Array.convert;
+/*</1.5compat>*/
 
 new Type('Boolean', Boolean);
 
@@ -479,7 +485,7 @@ Array.type = function(item){
 };
 
 this.$A = function(item){
-	return Array.from(item).slice();
+	return Array.convert(item).slice();
 };
 
 this.$arguments = function(i){
@@ -526,7 +532,7 @@ this.$merge = function(){
 this.$lambda = Function.from;
 this.$mixin = Object.merge;
 this.$random = Number.random;
-this.$splat = Array.from;
+this.$splat = Array.convert;
 this.$time = Date.now;
 
 this.$type = function(object){
