@@ -677,15 +677,15 @@ describe('String.from', function(){
 
 });
 
-describe('Function.from', function(){
+describe('Function.convert', function(){
 
 	it('if a function is passed in that function should be returned', function(){
 		var fn = function(a){ return a; };
-		expect(Function.from(fn)).to.equal(fn);
+		expect(Function.convert(fn)).to.equal(fn);
 	});
 
 	it('should return a function that returns the value passed when called', function(){
-		expect(Function.from('hello world!')()).to.equal('hello world!');
+		expect(Function.convert('hello world!')()).to.equal('hello world!');
 	});
 
 });
