@@ -3,7 +3,10 @@
 module.exports = function(grunt){
 	var dir = grunt.config.get('environment.dir'),
 		build = grunt.config.get('environment.build'),
-		travis = grunt.config.get('environment.travis');
+		travis = grunt.config.get('environment.travis'),
+		forceJSONP = false;
+
+	if (travis.browser === 'ie7' || travis.browser === 'ie8') forceJSONP = true;
 
 	var config = {
 		clean: {
@@ -24,7 +27,8 @@ module.exports = function(grunt){
 			},
 			'travis': {
 				options: {
-					files: [dir.build + '/mootools-core.js', dir.build + '/mootools-specs.js']
+					files: [dir.build + '/mootools-core.js', dir.build + '/mootools-specs.js'],
+					forceJSONP: forceJSONP
 				},
 				reporters: ['progress', 'saucelabs'],
 				browsers: [travis.browser]
