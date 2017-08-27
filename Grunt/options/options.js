@@ -16,6 +16,7 @@ module.exports = function(grunt){
 				plugins: ['karma-*', path.resolve('Grunt/plugins/karma/syn')],
 				reporters: ['progress'],
 				browsers: ['PhantomJS'],
+				transports: ['jsonp-polling'],
 				forceJSONP: true,
 				sauceLabs: {
 					username: sauceLabs.username,
