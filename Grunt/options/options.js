@@ -14,9 +14,10 @@ module.exports = function(grunt){
 				captureTimeout: 60000 * 2,
 				frameworks: ['expect', 'mocha', 'sinon', 'syn'],
 				plugins: ['karma-*', path.resolve('Grunt/plugins/karma/syn')],
+				concurrency: 3,
 				reporters: ['progress'],
 				browsers: ['PhantomJS'],
-				transports: ['jsonp-polling'],
+				transports: ['polling'],
 				forceJSONP: true,
 				sauceLabs: {
 					username: sauceLabs.username,
