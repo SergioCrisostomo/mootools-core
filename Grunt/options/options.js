@@ -3,7 +3,7 @@
 var path = require('path');
 var browsers = require('./browsers');
 
-module.exports = function(grunt) {
+module.exports = function(grunt){
 	var travis = grunt.config.get('environment.travis'),
 		sauceLabs = grunt.config.get('environment.sauceLabs');
 
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 		mochaTest: {
 			options: {
 				reporter: 'dot',
-				require: function() {
+				require: function(){
 					global.expect = require('expect.js');
 					global.sinon = require('sinon');
 				}

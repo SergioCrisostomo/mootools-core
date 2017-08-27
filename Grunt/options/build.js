@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(grunt) {
+module.exports = function(grunt){
 	var dir = grunt.config.get('environment.dir'),
 		build = grunt.config.get('environment.build'),
 		travis = grunt.config.get('environment.travis'),
